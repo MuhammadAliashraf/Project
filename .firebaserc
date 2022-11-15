@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "adminpanel-28d5d",
+    "staging": "adminpanel-28d5d"
+  },
+  "targets": {},
+  "etags": {}
+}
