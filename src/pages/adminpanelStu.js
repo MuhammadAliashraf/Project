@@ -2,6 +2,7 @@ import { CircularProgress, Grid, Stack, TextField, Typography } from '@mui/mater
 import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import SMGrid from '../component/grid'
 import { getDataFromDataBase } from '../config/firebasemethod'
 function AdminpanelStu() {
   const [isLoading, setLoading] = useState(true)
@@ -33,44 +34,64 @@ useEffect(() => {
       </Box> ) : (
        <>
        <Typography variant="p" className="display-3">Student List</Typography>
-        <table className="table table-bordered w-90 mt-2" style={{ fontSize: '0.8rem' }}>
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Courses</th>
-              <th>Section</th>
-              <th>Date Of Birth</th>
-              <th>Contact</th>
-              <th>CNIC</th>
-              <th>Father Name</th>
-              <th>Father CNIC</th>
-              <th>Father Contact</th>
-              <th>Emergency Contact</th>
-              <th>User UID</th>
-            </tr>
-          </thead>
-          {getData.map((e, i) => {
-            return <tbody key={i}>
-              <tr>
-                <td scope='row'>{i}</td>
-                <td>{e.firstName}</td>
-                <td>{e.lastName}</td>
-                <td>{e.Course}</td>
-                <td>{e.Section}</td>
-                <td>{e.date}</td>
-                <td>{e.contact}</td>
-                <td>{e.cnic}</td>
-                <td>{e.fatherName}</td>
-                <td>{e.fatherCnic}</td>
-                <td>{e.fatherContact}</td>
-                <td>{e.emergencyContact}</td>
-                <td>{e.id}</td>
-              </tr>
-            </tbody>
-          })}
-        </table>
+        <SMGrid  
+        datasource={getData}
+        Cols={[
+          {
+            displayName:"First Name",
+            key:"firstName"
+          },
+          {
+            displayName:"Last Name",
+            key:"lastName"
+          },
+          {
+            displayName:"Course",
+            key:"Course"
+          },
+          {
+            displayName:"Section",
+            key:"Section"
+          },
+          {
+            displayName:"Date Of Birth",
+            key:"date"
+          },
+          {
+            displayName:"Phone Number",
+            key:"contact"
+          },
+          {
+            displayName:"CNIC Number",
+            key:"cnic"
+          },
+          {
+            displayName:"Father Name ",
+            key:"fatherName"
+          },
+          {
+            displayName:"Father Name ",
+            key:"fatherName"
+          },
+          {
+            displayName:"Father CNIC ",
+            key:"fatherCnic"
+          },
+          {
+            displayName:"Father Contact ",
+            key:"fatherContact"
+          },
+          {
+            displayName:"Emergency Contact ",
+            key:"emergencyContact"
+          },
+          {
+            displayName:"User ID ",
+            key:"id"
+          },
+        ]}
+
+        /> 
        </>
         )
       }

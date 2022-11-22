@@ -21,7 +21,7 @@ export default function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SignUp/>}/>
+        <Route path="signup" element={<SignUp/>}/>
         <Route path="login" element={<Login/>}/>
         <Route path="/:id/*" element={<Dashboard/>}/>
         <Route path="form" element={<Form/>}/>

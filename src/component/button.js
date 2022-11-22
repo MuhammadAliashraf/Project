@@ -4,6 +4,5 @@ function MyButton(props) {
     <div>
         <button className={`btn ${ClassName}`} onClick={onClick}>{label}</button>
     </div>)
-
 }
 export {MyButton,}

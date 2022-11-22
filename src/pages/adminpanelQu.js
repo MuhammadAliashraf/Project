@@ -151,7 +151,7 @@
 //                     </Grid>
 //                 <Grid item ms={2}  >
 //                     {/* onClick={QuestionSendInDataBase} */}
-//                     <Button variant='contained' onClick={Quizinfosend}  >Add Quiz Data</Button>
+//                     <Button disabled={loading} variant='contained' onClick={Quizinfosend}  >Add Quiz Data</Button>
 //                 </Grid>
 //                 </Grid>
 //                 {/* <Grid /> */}
@@ -207,7 +207,7 @@
 // }
 
 // export default AdminpanelQu
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Muidropdown from '../component/dropdown';
 import Checkbox from "@mui/material/Checkbox";
@@ -221,6 +221,7 @@ function Quiz() {
     const [option, setOption] = useState("");
     const [optionsArr, setOptionsArr] = useState([]);
     const [QuizFromDB, setQuizFromDB] = useState();
+    const [loading, setloading] = useState(false);
 
     let createQuiz = () => {
         console.log(model)
@@ -242,13 +243,16 @@ function Quiz() {
     }
 
     let SubmitQuiz = () => {
+        setloading(true)
         model.questionsArray = questions
         // console.log(data);
         sendDataToDataBase(model, `Quiz/`)
-            .then((userID) => {
+        .then((userID) => {
+                setloading(false)
                 console.log(userID);
             })
             .catch((error) => {
+                setloading(false)
                 console.log(error)
             });
         console.log(model)
@@ -271,7 +275,14 @@ function Quiz() {
 
 
     return (
-        <>
+        <>{loading ?   ( <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh'        
+          }}><CircularProgress/>
+          </Box> ) :     
+          <Box>         
             <Box>
                 <Typography textAlign="center" variant="h4">Quiz</Typography>
                 <Box>
@@ -338,7 +349,7 @@ function Quiz() {
                         </Grid>
                         <Grid item md={2}  >
                             <Box sx={{ padding: 2 }}>
-                                <Button size="large" variant="contained" onClick={createQuiz}>Create Quiz</Button>
+                                <Button disabled={loading}   size="large" variant="contained" onClick={createQuiz}>{loading ?<CircularProgress/> : "Create Quiz"}</Button>
                             </Box>
                         </Grid>
                     </Grid>
@@ -367,17 +378,17 @@ function Quiz() {
                             </Grid>
                             <Grid item md={2}  >
                                 <Box sx={{ padding: 2 }}>
-                                    <Button size="large" variant="contained" onClick={addOption}>Add options</Button>
+                                    <Button disabled={loading} size="large" variant="contained" onClick={addOption}>{ loading ?<CircularProgress/> : "Add options"}</Button>
                                 </Box>
                             </Grid>
                             <Grid item md={2}  >
                                 <Box sx={{ padding: 2 }}>
-                                    <Button size="large" variant="contained" onClick={submitQuestion}>Submit Question</Button>
+                                    <Button disabled={loading} size="large" variant="contained" onClick={submitQuestion}>{loading ?<CircularProgress/> :"Submit Question"}</Button>
                                 </Box>
                             </Grid>
                             <Grid item md={2}  >
                                 <Box sx={{ padding: 2 }}>
-                                    <Button size="large" variant="contained" onClick={SubmitQuiz}>Lock Quiz</Button>
+                                    <Button disabled={loading} size="large" variant="contained" onClick={SubmitQuiz}>{loading ?<CircularProgress/> :"Lock Quiz"}</Button>
                                 </Box>
                             </Grid>
                             <Grid md={6} item>
@@ -394,15 +405,9 @@ function Quiz() {
                     )}
                 </Box>
             </Box>
-            {/* <Grid container>
-                <Grid item >
-                    {model.map((e,i)=>{
-                        <Box>
-                            <Typography variant="p" >Course name{e.course}</Typography>
-                        </Box>
-                    })}
-                </Grid>
-            </Grid> */}
+            </Box>
+          
+        }
         </>
     );
 }

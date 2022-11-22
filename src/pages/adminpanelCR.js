@@ -1,12 +1,14 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, CircularProgress, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import Muidropdown from "../component/dropdown";
+import SMGrid from "../component/grid";
 import BasicSelect from "../component/select";
 
 
 function AdminpanelCR() {
     const [data, setData] = useState({});
+    const [loading, setloading] = useState(false);
     const [courseStatus, setCourseStatus] = useState(false);
     const [resultData, setResultData] = useState([
         {
@@ -81,7 +83,14 @@ function AdminpanelCR() {
 
     return (
         <>
-            <Grid container justifyContent='center' minHeight="100vh">
+        {loading? (<Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh'
+        }}>
+          <CircularProgress />
+        </Box>) : <Grid container justifyContent='center' minHeight="100vh">
                 <Grid item xs={10} md={10}>
                     <Box sx={{ backgroundColor: '#fff', p: 4, borderRadius: '5px' }}>
                         <Grid item md={10}>
@@ -108,6 +117,7 @@ function AdminpanelCR() {
                                                 id: 'DM',
                                                 option: 'Digital Marketing'
                                             },
+                                            
                                         ]}
                                     />
                                 </Grid>
@@ -125,33 +135,36 @@ function AdminpanelCR() {
                         <Grid container>
                             <Grid item xs={12} md={6}>
                                 <Typography variant="p" className="display-3">Results List</Typography>
-                                <table className="table table-bordered w-90 mt-2" style={{ fontSize: '0.8rem' }}>
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th>Name</th>
-                                            <th>Roll No</th>
-                                            <th>Marks</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    {resultData.map((e, i) => {
-                                        return <tbody key={i}>
-                                            <tr>
-                                                <td scope='row'>{i}</td>
-                                                <td>{e.name}</td>
-                                                <td>{e.rollNum}</td>
-                                                <td>{e.marks}</td>
-                                                <td>{e.result}</td>
-                                            </tr>
-                                        </tbody>
-                                    })}
-                                </table>
+                                <SMGrid 
+                                datasource={resultData}
+                                onRowClick={(e)=>console.log(e)}      
+                                Cols={[
+                                        {
+                                            displayName: "Name",
+                                            key: "name"
+        
+                                        },
+                                        {
+                                            displayName: "Marks",
+                                            key: "marks"
+        
+                                        },
+                                        {
+                                            displayName: "RollNum",
+                                            key: "rollNum"
+                                        },
+                                        {
+                                            displayName: "Result",
+                                            key: "result"
+                                        }
+                                      ]}  
+                                />
                             </Grid>
                         </Grid>
                     </Box>
-                </Grid>
+                </Grid> 
             </Grid >
+}
         </>
     )
 }

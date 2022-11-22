@@ -3,6 +3,4 @@ function MyInput(props) {
     return <input placeholder={label} disabled={disabled} onChange={OnChange} type={type} value={value}  />
 }
 
-
-
 export {MyInput};

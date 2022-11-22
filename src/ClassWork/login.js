@@ -45,17 +45,17 @@ export default function Login() {
   const [loader, setloader] = useState(false);
 
   const handleSubmit = () => {
-    setloader(true) 
+    setloader(true)
     loginuser({ email, password })
-    .then((success)=>{
-      setloader(false)
-      console.log(success)
-      navigate(`/${success.id}`)
-    })
-    .catch((error)=>{
-      setloader(false)
-      console.log(error)
-    })
+      .then((success) => {
+        setloader(false)
+        console.log(success)
+        navigate(`/${success.id}`)
+      })
+      .catch((error) => {
+        setloader(false)
+        console.log(error)
+      })
   }
 
   return (
@@ -107,11 +107,11 @@ export default function Login() {
               onClick={handleSubmit}
               type="button"
               fullWidth
-              disabled={loader}           
+              disabled={loader}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-             {loader?<CircularProgress/>:"login"}
+              {loader ? <CircularProgress /> : "login"}
             </Button>
             <Grid container>
               <Grid item xs>

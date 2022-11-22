@@ -18,7 +18,7 @@ function AdminpanelC() {
 
   const CourseSendInDataBase = () => {
     setloader(true)
-    sendDataToDataBase({ course }, `Coursedetails/`)
+    sendDataToDataBase(course, `Coursedetails/`)
       .then((resolve) => {
         // navigate('adminpanelcourselist') 
         console.log(resolve)
@@ -30,66 +30,75 @@ function AdminpanelC() {
         console.log(error)
         setloader(false)
       });
-    }
-    const getStudentData = () => {
-      setloader(true)
-      getDataFromDataBase(`Coursedetails/`)
+  }
+  const getStudentData = () => {
+    setloader(true)
+    getDataFromDataBase(`Coursedetails/`)
       .then((res) => {
         setcourse(res)
         setloader(false)
-        
+
       })
       .catch((error) => {
         alert(error)
         setloader(false)
-      })  
+      })
   }
   useEffect(() => {
     getStudentData();
   }, [])
   return (
-    <div  >
-      <Typography variant='h4' align='center'>Add Courses!</Typography>
-      <Box align='center' >
-        <Grid container justifyContent='center' spacing={0} >
-          <Grid item mt={5} xs={8} >
-            <TextField fullWidth required name="CourseName" onChange={(e) => courseadd(e)} label="Add Enter Course Name" />
-          </Grid>
-          <Grid item mt={5} xs={6}  >
-            <TextField required
-              name='CourseDuration'
-              onChange={(e) => courseadd(e)} label="Add Course Duration" />
-          </Grid>
-          <Grid item mt={5} xs={6} >
-            <TextField required
-              name='status'
-              onChange={(e) => courseadd(e)} label="Add Is Form Open" />
-          </Grid>
-          <Grid item mt={5} xs={6} >
-            <TextField required
-              name='Quizes'
-              onChange={(e) => courseadd(e)} label="Add No of Quizes" />
-          </Grid>
-          <Grid item mt={5} xs={6} >
-            <TextField required
-              name='Fees'
-              onChange={(e) => courseadd(e)} label="Add Fees Of this Course" />
-          </Grid>
-          <Grid item mt={5} xs={6} >
-            <TextField required
-              name='LeadTrainers'
-              onChange={(e) => courseadd(e)} label="Add Lead Trainers" />
-          </Grid>
-          <Grid item mt={5} xs={6} >
-            <TextField required
-              name='AssitantTrainers'
-              onChange={(e) => courseadd(e)} label="Add Assitant Trainers" />
-          </Grid>
-        </Grid>
-        <Box display="flex" justifyContent="center"  >
-        <Button mt={3} align='center'  disabled={loader} onClick={CourseSendInDataBase} variant='contained' >{loader?<CircularProgress/>:"Course Added"}</Button>
-        </Box>
-      </Box>
+    <div>
+      {loader ?
+        (<Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh'
+        }}>
+          <CircularProgress />
+        </Box>) : <>
+          <Typography variant='h4' align='center'>Add Courses!</Typography><Box align='center'>
+            <Grid container justifyContent='center' spacing={0}>
+              <Grid item mt={5} xs={8}>
+                <TextField fullWidth required name="CourseName" onChange={(e) => courseadd(e)} label="Add Enter Course Name" />
+              </Grid>
+              <Grid item mt={5} xs={6}>
+                <TextField required
+                  name='CourseDuration'
+                  onChange={(e) => courseadd(e)} label="Add Course Duration" />
+              </Grid>
+              <Grid item mt={5} xs={6}>
+                <TextField required
+                  name='status'
+                  onChange={(e) => courseadd(e)} label="Add Is Form Open" />
+              </Grid>
+              <Grid item mt={5} xs={6}>
+                <TextField required
+                  name='Quizes'
+                  onChange={(e) => courseadd(e)} label="Add No of Quizes" />
+              </Grid>
+              <Grid item mt={5} xs={6}>
+                <TextField required
+                  name='Fees'
+                  onChange={(e) => courseadd(e)} label="Add Fees Of this Course" />
+              </Grid>
+              <Grid item mt={5} xs={6}>
+                <TextField required
+                  name='LeadTrainers'
+                  onChange={(e) => courseadd(e)} label="Add Lead Trainers" />
+              </Grid>
+              <Grid item mt={5} xs={6}>
+                <TextField required
+                  name='AssitantTrainers'
+                  onChange={(e) => courseadd(e)} label="Add Assitant Trainers" />
+              </Grid>
+            </Grid>
+            <Box display="flex" justifyContent="center">
+              <Button mt={3} align='center' disabled={loader} variant='contained'>{loader ? <CircularProgress /> : "Course Added"}</Button>
+            </Box>
+          </Box></>
+      }
     </div>
   )
 }

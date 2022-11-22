@@ -5,10 +5,12 @@ import { getDataFromDataBase, sendDataToDataBase, userSignUp } from "../config/f
 import Muidropdown from '../component/dropdown';
 import MuiDatepicker from '../component/datePicker';
 import { setDate } from '../config/core/date';
-
+import CircularProgress from '@mui/material/CircularProgress';
 function Form() {
     const navigate = useNavigate();
+
     const [data, setdata] = useState("");
+    const [loading, setloading] = useState(false);
     const [model, setmodel] = useState([]);
     const [getData, setgetData] = useState([]);
     const [course, setcourse] = useState([]);
@@ -20,6 +22,7 @@ function Form() {
     }
     // console.log(getData)
     function SendStudendata() {
+        setloading(true)
         data.registerDate = setDate(new Date())
         data.isFeeSubmited = false;
         data.isApproved = false;
@@ -37,10 +40,12 @@ function Form() {
             data
         , `student/`)
             .then((userID) => {
+                setloading(false)
                 console.log(userID);
                 navigate('userlogin/')
             })
             .catch((error) => {
+                setloading(false)
                 console.log(error)
             });
     }
@@ -72,7 +77,6 @@ function Form() {
             .then((res) => {
                 setgetData(res)
                 console.log(res)
-
             })
             .catch((error) => {
                 alert(error)
@@ -84,6 +88,7 @@ function Form() {
         // getCourseData();
     }, [])
     const gotologin = () => {
+        
         navigate('userlogin/')
     }
 
@@ -140,21 +145,13 @@ function Form() {
                         </Grid>
                         <Grid item md={6}  >
                             <Muidropdown
-                                label='Course'
-                                labelId='Course-label'
-                                onChange={(e) => handleChange(e)}
-                                name='Course'
-                                nodeName='Coursedetails'
-                                displayValue='CourseName'
-                                fieldValue='CourseName'
-                            />
-                        </Grid>
-                        <Grid item md={6}  >
-                            <Muidropdown
-                                label='Section'
-                                labelId='Section-label'
-                                onChange={(e) => handleChange(e)}
-                                name='Section'
+                                    label='Course'
+                                    labelId='Course-label'
+                                    onChange={(e) => handleChange(e)}
+                                    name='Course'
+                                    // nodeName='Coursedetails'
+                                    // displayValue='CourseName'
+                                    // fieldValue='CourseName'
                                 dataSource={[
                                     {
                                         option: "A"
@@ -166,6 +163,25 @@ function Form() {
                                         option: "C"
                                     },
                                 ]}
+                            />
+                        </Grid>
+                        <Grid item md={6}  >
+                            <Muidropdown
+                                label='Section'
+                                labelId='Section-label'
+                                onChange={(e) => handleChange(e)}
+                                name='Section'
+                                    dataSource={[
+                                        {
+                                            option: "A"
+                                        },
+                                        {
+                                            option: "B"
+                                        },
+                                        {
+                                            option: "C"
+                                        },
+                                    ]}
                             />
                         </Grid>
                         <Grid item md={4}>
@@ -252,7 +268,7 @@ function Form() {
                         </Grid>
 
                         <Grid item xs={12} >
-                            <Button variant="contained" onClick={SendStudendata} >Submit Form
+                            <Button variant="contained"  onClick={SendStudendata} >{loading? <CircularProgress color='info' /> :"Submit Form"}
                             </Button>
                         </Grid>
                         <Grid item xs={12} >
